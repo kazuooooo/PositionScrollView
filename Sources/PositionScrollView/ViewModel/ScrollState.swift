@@ -64,10 +64,6 @@ public class ScrollState: ObservableObject {
         self.scrollDetector = ScrollDetector(
             horizontalScrollSpeedToDetect: horizontalScroll?.scrollSpeedToDetect, verticalScrollSpeedToDetect: verticalScroll?.scrollSpeedToDetect
         )
-        //        self.dimentionalScroll = DimentionalScroll(
-        //            horizontal: horizontalScroll,
-        //            vertical: verticalScroll
-        //        )
         self.horizontalScroll = horizontalScroll
         self.verticalScroll = verticalScroll
     }
@@ -91,8 +87,10 @@ public class ScrollState: ObservableObject {
             case .vertical:
                 self.activeScrollDirection = .vertical
             }
+            print("detect")
             return true
         } else {
+            print("not detect")
             return false
         }
     }
@@ -105,7 +103,9 @@ public class ScrollState: ObservableObject {
             return
         }
         let directionDragValue = Scroll.dragValueForDirection(dragValue: dragValue, scrollDirection: scrollDirection)
+        print("directionDragValue: \(directionDragValue)")
         self.activeScroll?.moveBy(value: directionDragValue)
+        print("position: \(self.activeScroll?.zStackPosition)")
     }
     
     /// Handle scroll end. Reset scroll state and move to endPosition.
@@ -124,6 +124,8 @@ public class ScrollState: ObservableObject {
             self.activeScroll?.moveTo(position: scrollEndPosition)
             self.activeScroll?.end()
         }
+        print("scroll end")
+        self.activeScrollDirection = nil
         self.scrollDetector.reset()
     }
 }

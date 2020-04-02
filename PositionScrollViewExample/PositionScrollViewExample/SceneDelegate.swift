@@ -19,40 +19,37 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         let pageSize = CGSize(width: 200, height: 200)
-        let scrollState = ScrollState(
-            pageSize: pageSize,
-            horizontalScroll: Scroll(pageCount: 6, pageSize: pageSize.width, unitCountInPage: 1, afterMoveType: .smooth),
-            verticalScroll: Scroll(pageCount: 6, pageSize: pageSize.width, unitCountInPage: 1, afterMoveType: .smooth)
-        )
         let view = PositionScrollView(
-            scrollState: scrollState
+            pageSize: pageSize,
+            horizontalScrollSetting: ScrollSetting(pageCount: 6, pageSize: 200)
         ) {
             HStack(spacing: 0) {
-                ForEach(0...5, id: \.self){ _ in                    VStack(spacing: 0) {
-                        ZStack {
-                            Image("image").resizable().frame(width: 200, height: 200)
-                            Text("0")
-                        }
-                        ZStack {
-                            Image("image").resizable().frame(width: 200, height: 200)
-                            Text("1")
-                        }
-                        ZStack {
-                            Image("image").resizable().frame(width: 200, height: 200)
-                            Text("2")
-                        }
-                        ZStack {
-                            Image("image").resizable().frame(width: 200, height: 200)
-                            Text("3")
-                        }
-                        ZStack {
-                            Image("image").resizable().frame(width: 200, height: 200)
-                            Text("4")
-                        }
-                        ZStack {
-                            Image("image").resizable().frame(width: 200, height: 200)
-                            Text("5")
-                        }
+                ForEach(0...5, id: \.self){ _ in
+                    VStack(spacing: 0) {
+                    ZStack {
+                        Image("image").resizable().frame(width: 200, height: 200)
+                        Text("0")
+                    }
+                    ZStack {
+                        Image("image").resizable().frame(width: 200, height: 200)
+                        Text("1")
+                    }
+                    ZStack {
+                        Image("image").resizable().frame(width: 200, height: 200)
+                        Text("2")
+                    }
+                    ZStack {
+                        Image("image").resizable().frame(width: 200, height: 200)
+                        Text("3")
+                    }
+                    ZStack {
+                        Image("image").resizable().frame(width: 200, height: 200)
+                        Text("4")
+                    }
+                    ZStack {
+                        Image("image").resizable().frame(width: 200, height: 200)
+                        Text("5")
+                    }
                     }
                 }
             }

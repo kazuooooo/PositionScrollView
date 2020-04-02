@@ -14,9 +14,10 @@
 		B9F543C42435E22A00F0A1DC /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B9F543C32435E22A00F0A1DC /* Preview Assets.xcassets */; };
 		B9F543C72435E22A00F0A1DC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9F543C52435E22A00F0A1DC /* LaunchScreen.storyboard */; };
 		B9F543D62435E24100F0A1DC /* ScrollState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F543D12435E24100F0A1DC /* ScrollState.swift */; };
-		B9F543D72435E24100F0A1DC /* PositionScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F543D22435E24100F0A1DC /* PositionScrollView.swift */; };
 		B9F543D82435E24100F0A1DC /* Scroll.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F543D42435E24100F0A1DC /* Scroll.swift */; };
 		B9F543D92435E24100F0A1DC /* ScrollDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F543D52435E24100F0A1DC /* ScrollDetector.swift */; };
+		B9F543DB2435F5D300F0A1DC /* PositionScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F543D22435E24100F0A1DC /* PositionScrollView.swift */; };
+		B9F543DD2435F6B800F0A1DC /* Sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F543DC2435F6B800F0A1DC /* Sample.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		B9F543D22435E24100F0A1DC /* PositionScrollView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PositionScrollView.swift; sourceTree = "<group>"; };
 		B9F543D42435E24100F0A1DC /* Scroll.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scroll.swift; sourceTree = "<group>"; };
 		B9F543D52435E24100F0A1DC /* ScrollDetector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollDetector.swift; sourceTree = "<group>"; };
+		B9F543DC2435F6B800F0A1DC /* Sample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sample.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				B9F543C52435E22A00F0A1DC /* LaunchScreen.storyboard */,
 				B9F543C82435E22A00F0A1DC /* Info.plist */,
 				B9F543C22435E22A00F0A1DC /* Preview Content */,
+				B9F543DC2435F6B800F0A1DC /* Sample.swift */,
 			);
 			path = PositionScrollViewExample;
 			sourceTree = "<group>";
@@ -96,9 +99,9 @@
 		B9F543CF2435E24100F0A1DC /* PositionScrollView */ = {
 			isa = PBXGroup;
 			children = (
+				B9F543D32435E24100F0A1DC /* Model */,
 				B9F543D02435E24100F0A1DC /* ViewModel */,
 				B9F543D22435E24100F0A1DC /* PositionScrollView.swift */,
-				B9F543D32435E24100F0A1DC /* Model */,
 			);
 			path = PositionScrollView;
 			sourceTree = "<group>";
@@ -192,11 +195,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B9F543D62435E24100F0A1DC /* ScrollState.swift in Sources */,
+				B9F543DD2435F6B800F0A1DC /* Sample.swift in Sources */,
 				B9F543D92435E24100F0A1DC /* ScrollDetector.swift in Sources */,
 				B9F543BB2435E22900F0A1DC /* AppDelegate.swift in Sources */,
 				B9F543D82435E24100F0A1DC /* Scroll.swift in Sources */,
 				B9F543BD2435E22900F0A1DC /* SceneDelegate.swift in Sources */,
-				B9F543D72435E24100F0A1DC /* PositionScrollView.swift in Sources */,
+				B9F543DB2435F5D300F0A1DC /* PositionScrollView.swift in Sources */,
 				B9F543BF2435E22900F0A1DC /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

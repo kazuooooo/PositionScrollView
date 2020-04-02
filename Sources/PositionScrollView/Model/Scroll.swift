@@ -7,7 +7,8 @@ import SwiftUI
 /// page: TODO
 /// unit: TODO
 /// Note: This class doesn't  care for scroll direction.
-struct Scroll {
+
+struct ScrollSetting {
     /// How many pages in scroll
     var pageCount: Int
     
@@ -15,36 +16,47 @@ struct Scroll {
     var pageSize: CGFloat
     
     /// How many units in one page
-    var unitCountInPage: Int
+    var unitCountInPage: Int = 1
     
     /// Behaviour after finger release.
     /// .smooth: Move follows ineritia
     /// .unit: Move to nearest unit position
-    var afterMoveType: AfterMoveType
+    var afterMoveType: AfterMoveType = .smooth
     
     /// Scroll speed threshold to detect
-    var scrollSpeedToDetect: Double
+    var scrollSpeedToDetect: Double = 30
     
-    private var lastPosition: CGFloat
-    
-    private var unitSize: CGFloat {
+    var unitSize: CGFloat {
         pageSize / CGFloat(unitCountInPage)
     }
     
-    private var contentSize: CGFloat {
+    var contentSize: CGFloat {
         pageSize * CGFloat(pageCount)
     }
     
-    private var pageZeroOffset: CGFloat {
+    var pageZeroOffset: CGFloat {
         contentSize / 2 - pageSize / 2
     }
     
-    private var positionRange: ClosedRange<CGFloat> {
+    var positionRange: ClosedRange<CGFloat> {
         0...(contentSize - pageSize)
     }
+}
+
+struct Scroll {
+    var scrollSetting: ScrollSetting
+    private var lastPosition: CGFloat = 0
+    
+    // delegate to scrollsetting
+    var pageSize: CGFloat { scrollSetting.pageSize }
+    var unitSize: CGFloat { scrollSetting.unitSize }
+    var contentSize: CGFloat { scrollSetting.contentSize }
+    var pageZeroOffset: CGFloat { scrollSetting.pageZeroOffset }
+    var positionRange: ClosedRange<CGFloat> { scrollSetting.positionRange }
+    var scrollSpeedToDetect: Double { scrollSetting.scrollSpeedToDetect }
     
     // 0ページ目の端を基準にしたposition
-    private var position: CGFloat {
+    var position: CGFloat {
         get { pageToPosition(page: page, unit: unit, positionInUnit: positionInUnit) }
         // page = 600
         // unit = 300
@@ -62,34 +74,24 @@ struct Scroll {
     
     // position for Zstack
     var zStackPosition: CGFloat {
-        -(position + pageSize / 2 - contentSize / 2)
+        -(position + scrollSetting.pageSize / 2 - scrollSetting.contentSize / 2)
     }
     
     //
-    private var page: Int = 0
-    private var unit: Int = 0
-    private var positionInUnit: CGFloat = 0
+    var page: Int = 0
+    var unit: Int = 0
+    var positionInUnit: CGFloat = 0
     
     init(
-        pageCount: Int,
-        pageSize: CGFloat,
-        unitCountInPage: Int = 1,
+        scrollSetting: ScrollSetting,
         initialPage: Int = 0,
         initialUnit: Int = 0,
-        initialPositionInUnit: CGFloat = 0,
-        lastScrollPosition: CGFloat = 0,
-        afterMoveType: AfterMoveType = .smooth,
-        scrollSpeedToDetect: Double = 30
+        initialPositionInUnit: CGFloat = 0
     ){
-        self.pageCount = pageCount
-        self.pageSize = pageSize
-        self.unitCountInPage = unitCountInPage
+        self.scrollSetting = scrollSetting
         self.page = initialPage
         self.unit = initialUnit
         self.positionInUnit = initialPositionInUnit
-        self.lastPosition = lastScrollPosition
-        self.afterMoveType = afterMoveType
-        self.scrollSpeedToDetect = scrollSpeedToDetect
     }
     
     
@@ -118,7 +120,7 @@ struct Scroll {
     /// - Parameter predictedEndValue: Predicted scroll end value by ineritia
     /// - Returns: Scroll end position
     func calcScrollEndPosition(predictedEndValue: CGFloat) -> CGFloat {
-        switch afterMoveType {
+        switch scrollSetting.afterMoveType {
         case .smooth:
             return position - predictedEndValue
         case .unit:
