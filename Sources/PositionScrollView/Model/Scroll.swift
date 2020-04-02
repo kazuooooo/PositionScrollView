@@ -174,3 +174,13 @@ extension Scroll {
         }
     }
 }
+
+enum ScrollDirection {
+    case horizontal
+    case vertical
+}
+
+enum AfterMoveType {
+    case unit   // unitごとにスクロールさせる
+    case smooth // 通常の慣性スクロール
+}
