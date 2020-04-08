@@ -2,7 +2,7 @@ import SwiftUI
 
 /// Extended ScrollView which can controll position
 public struct PositionScrollView<ChildView: View>: View {
-    @EnvironmentObject var scrollState: ScrollState
+    @State var scrollState: ScrollState
     /// Scroll target view
     let childView: ChildView
     
@@ -10,10 +10,12 @@ public struct PositionScrollView<ChildView: View>: View {
     ///   - scrollState: scroll state
     ///   - childView: Scroll target view
     init(
+        scrollState: ScrollState,
         _ childView: () -> (ChildView)
     ) {
         print("callinit: init")
         self.childView = childView()
+        self.scrollState = scrollState
     }
     
     // Horizontal Only
