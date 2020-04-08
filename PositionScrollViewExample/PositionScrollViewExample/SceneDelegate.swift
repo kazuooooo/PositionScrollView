@@ -18,43 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        let pageSize = CGSize(width: 200, height: 200)
-        let view = PositionScrollView(
-            pageSize: pageSize,
-            horizontalScrollSetting: ScrollSetting(pageCount: 6, pageSize: 200)
-        ) {
-            HStack(spacing: 0) {
-                ForEach(0...5, id: \.self){ _ in
-                    VStack(spacing: 0) {
-                    ZStack {
-                        Image("image").resizable().frame(width: 200, height: 200)
-                        Text("0")
-                    }
-                    ZStack {
-                        Image("image").resizable().frame(width: 200, height: 200)
-                        Text("1")
-                    }
-                    ZStack {
-                        Image("image").resizable().frame(width: 200, height: 200)
-                        Text("2")
-                    }
-                    ZStack {
-                        Image("image").resizable().frame(width: 200, height: 200)
-                        Text("3")
-                    }
-                    ZStack {
-                        Image("image").resizable().frame(width: 200, height: 200)
-                        Text("4")
-                    }
-                    ZStack {
-                        Image("image").resizable().frame(width: 200, height: 200)
-                        Text("5")
-                    }
-                    }
-                }
-            }
-        }
-        let contentView = view
+        var setting = UserSettings()
+        let contentView = ContentView().environmentObject(setting)
 
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {

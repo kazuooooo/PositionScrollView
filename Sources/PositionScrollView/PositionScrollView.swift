@@ -13,6 +13,7 @@ public struct PositionScrollView<ChildView: View>: View {
         scrollState: ScrollState,
         _ childView: () -> (ChildView)
     ) {
+        print("callinit: init")
         self.childView = childView()
         self.scrollState = scrollState
     }
@@ -20,7 +21,9 @@ public struct PositionScrollView<ChildView: View>: View {
     // Horizontal Only
     init(
         pageSize: CGSize,
-        horizontalScrollSetting: ScrollSetting, _ childView: () -> (ChildView)) {
+        horizontalScrollSetting: ScrollSetting,
+        positionScrollViewDelegate: PositionScrollViewDelegate? = nil,
+        _ childView: () -> (ChildView)) {
         let scrollState = ScrollState(
             pageSize: pageSize,
             horizontalScroll: Scroll(scrollSetting: horizontalScrollSetting)
@@ -31,10 +34,13 @@ public struct PositionScrollView<ChildView: View>: View {
     // Vertical Only
     init(
         pageSize: CGSize,
-        verticalScrollSetting: ScrollSetting, _ childView: () -> (ChildView)) {
+        verticalScrollSetting: ScrollSetting,
+        positionScrollViewDelegate: PositionScrollViewDelegate? = nil,_ childView: () -> (ChildView)) {
         let scrollState = ScrollState(
             pageSize: pageSize,
-            verticalScroll: Scroll(scrollSetting: verticalScrollSetting)
+            verticalScroll: Scroll(
+                scrollSetting: verticalScrollSetting
+            )
         )
         self.init(scrollState: scrollState, childView)
     }
@@ -43,7 +49,8 @@ public struct PositionScrollView<ChildView: View>: View {
     init(
         pageSize: CGSize,
         horizontalScrollSetting: ScrollSetting,
-        verticalScrollSetting: ScrollSetting, _ childView: () -> (ChildView)) {
+        verticalScrollSetting: ScrollSetting,
+        positionScrollViewDelegate: PositionScrollViewDelegate? = nil,_ childView: () -> (ChildView)) {
         let scrollState = ScrollState(
             pageSize: pageSize,
             horizontalScroll: Scroll(scrollSetting: horizontalScrollSetting),
@@ -54,13 +61,6 @@ public struct PositionScrollView<ChildView: View>: View {
     
     public var body: some View {
         ZStack(alignment: .topLeading) {
-//            VStack {
-//                Text("zStackPosition: \(self.scrollState.horizontalScroll!.zStackPosition)")
-//                Text("position: \(self.scrollState.horizontalScroll!.position)")
-//                Text("unit: \(self.scrollState.horizontalScroll!.unit)")
-//                Text("positionInUnit: \(self.scrollState.horizontalScroll!.positionInUnit)")
-//                Text("page: \(self.scrollState.horizontalScroll!.page)")
-//            }.offset(y: -200)
             self.childView.frame(alignment: .topLeading)
                 .position(
                     x: self.scrollState.horizontalScroll?.zStackPosition ?? 0,
@@ -69,6 +69,8 @@ public struct PositionScrollView<ChildView: View>: View {
                 // NOTE: Offset to correct the cordinate to upper left of a PositionScrollView.
                 x: self.scrollState.pageSize.width / 2,
                 y: self.scrollState.pageSize.height / 2
+            ).mask(
+                Rectangle().frame(width: self.scrollState.pageSize.width, height: scrollState.pageSize.height)
             )
         }.gesture(DragGesture().onChanged {value in
             if (self.scrollState.detectScroll(dragValue: value)) {
@@ -80,50 +82,49 @@ public struct PositionScrollView<ChildView: View>: View {
             .frame(
                 width: self.scrollState.pageSize.width,
                 height: self.scrollState.pageSize.height
-        ).border(Color.green)
+        )
     }
 }
 
 struct PositionScrollView_Previews: PreviewProvider {
     static var previews: some View {
         let pageSize = CGSize(width: 200, height: 200)
-//        let scrollState = ScrollState(
-//            pageSize: pageSize,
-//            verticalScroll: Scroll(pageCount: 6, pageSize: pageSize.height, unitCountInPage: 1,
-//                                     afterMoveType: .smooth)
-//        )
+        //        let scrollState = ScrollState(
+        //            pageSize: pageSize,
+        //            verticalScroll: Scroll(pageCount: 6, pageSize: pageSize.height, unitCountInPage: 1,
+        //                                     afterMoveType: .smooth)
+        //        )
         return PositionScrollView(
             pageSize: pageSize,
-            horizontalScrollSetting: ScrollSetting(pageCount: 6, pageSize: 200),
-            verticalScrollSetting: ScrollSetting(pageCount: 6, pageSize: 200, afterMoveType: .unit)
+            horizontalScrollSetting: ScrollSetting(pageCount: 6, pageSize: 200)
         ) {
             HStack(spacing: 0) {
                 ForEach(0...5, id: \.self){ _ in
                     VStack(spacing: 0) {
-                    ZStack {
-                        Image("image").resizable().frame(width: 200, height: 200)
-                        Text("0")
-                    }.border(Color.red)
-                    ZStack {
-                        Image("image").resizable().frame(width: 200, height: 200)
-                        Text("1")
-                    }
-                    ZStack {
-                        Image("image").resizable().frame(width: 200, height: 200)
-                        Text("2")
-                    }
-                    ZStack {
-                        Image("image").resizable().frame(width: 200, height: 200)
-                        Text("3")
-                    }
-                    ZStack {
-                        Image("image").resizable().frame(width: 200, height: 200)
-                        Text("4")
-                    }
-                    ZStack {
-                        Image("image").resizable().frame(width: 200, height: 200)
-                        Text("5")
-                    }
+                        ZStack {
+                            Image("image").resizable().frame(width: 200, height: 200)
+                            Text("0")
+                        }.border(Color.red)
+                        ZStack {
+                            Image("image").resizable().frame(width: 200, height: 200)
+                            Text("1")
+                        }
+                        ZStack {
+                            Image("image").resizable().frame(width: 200, height: 200)
+                            Text("2")
+                        }
+                        ZStack {
+                            Image("image").resizable().frame(width: 200, height: 200)
+                            Text("3")
+                        }
+                        ZStack {
+                            Image("image").resizable().frame(width: 200, height: 200)
+                            Text("4")
+                        }
+                        ZStack {
+                            Image("image").resizable().frame(width: 200, height: 200)
+                            Text("5")
+                        }
                     }
                 }
             }

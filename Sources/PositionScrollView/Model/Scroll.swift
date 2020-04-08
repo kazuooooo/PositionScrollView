@@ -41,6 +41,8 @@ struct ScrollSetting {
     var positionRange: ClosedRange<CGFloat> {
         0...(contentSize - pageSize)
     }
+    
+    var positionScrollDelegate: PositionScrollViewDelegate?
 }
 
 struct Scroll {
@@ -65,6 +67,9 @@ struct Scroll {
         // unit = (1530 - (page * pageSize)) / 300 = 1
         // positionInUnit = 1530 - page * pageSize - unit * unitSize
         set {
+            if newValue != position {
+                self.scrollSetting.positionScrollDelegate?.onChangePosition(position: position)
+            }
             self.page = Int(newValue / pageSize)
             let unitValue = Double(newValue).truncatingRemainder(dividingBy: Double(pageSize))
             self.unit = Int(unitValue / Double(unitSize))
@@ -78,9 +83,28 @@ struct Scroll {
     }
     
     //
-    var page: Int = 0
-    var unit: Int = 0
-    var positionInUnit: CGFloat = 0
+    var page: Int = 0 {
+        // NOTE: これだとちょっとタイミングが早すぎるかも...
+        didSet {
+            if page != oldValue {
+                self.scrollSetting.positionScrollDelegate?.onChangePage(page: page)
+            }
+        }
+    }
+    var unit: Int = 0 {
+        didSet {
+            if unit != oldValue {
+                self.scrollSetting.positionScrollDelegate?.onChangeUnit(unit: unit)
+            }
+        }
+    }
+    var positionInUnit: CGFloat = 0 {
+        didSet {
+            if positionInUnit != oldValue {
+                self.scrollSetting.positionScrollDelegate?.onChangePositionInUnit(positionInUnit: positionInUnit)
+            }
+        }
+    }
     
     init(
         scrollSetting: ScrollSetting,

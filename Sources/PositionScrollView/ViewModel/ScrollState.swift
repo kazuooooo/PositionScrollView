@@ -9,13 +9,12 @@
 import Foundation
 import SwiftUI
 
-/// ScrollState ViewModel
 public class ScrollState: ObservableObject {
     
     /// Dimentional
     @Published var horizontalScroll: Scroll?
     @Published var verticalScroll: Scroll?
-    
+
     var activeScroll: Scroll? {
         get {
             switch activeScrollDirection {
@@ -103,9 +102,7 @@ public class ScrollState: ObservableObject {
             return
         }
         let directionDragValue = Scroll.dragValueForDirection(dragValue: dragValue, scrollDirection: scrollDirection)
-        print("directionDragValue: \(directionDragValue)")
         self.activeScroll?.moveBy(value: directionDragValue)
-        print("position: \(self.activeScroll?.zStackPosition)")
     }
     
     /// Handle scroll end. Reset scroll state and move to endPosition.
@@ -124,7 +121,6 @@ public class ScrollState: ObservableObject {
             self.activeScroll?.moveTo(position: scrollEndPosition)
             self.activeScroll?.end()
         }
-        print("scroll end")
         self.activeScrollDirection = nil
         self.scrollDetector.reset()
     }

@@ -9,13 +9,39 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var settings: UserSettings
+
     var body: some View {
-        Text("Hello, World!")
+        NavigationView {
+            VStack {
+                // A button that writes to the environment settings
+                Button(action: {
+                    self.settings.score += 1
+                }) {
+                    Text("Increase Score")
+                    Text("\(self.settings.score)")
+                }
+
+                NavigationLink(destination: DetailView()) {
+                    Text("Show Detail View")
+                }
+            }
+        }
+    }
+}
+
+struct DetailView: View {
+    @EnvironmentObject var settings: UserSettings
+
+    var body: some View {
+        // A text view that reads from the environment settings
+        Text("Score: \(settings.score)")
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        var settings = UserSettings()
+        return ContentView().environmentObject(settings)
     }
 }
