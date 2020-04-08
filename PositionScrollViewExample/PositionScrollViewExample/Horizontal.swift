@@ -10,27 +10,15 @@ import Foundation
 
 import SwiftUI
 
-/// ScrollState ViewModel
-//public class PositionInfo: ObservableObject {
-//    @Published var position: CGFloat = 0
-//    @Published var page: Int = 0
-//    @Published var unit: Int = 0
-//    @Published var positionInUnit: CGFloat = 0
-//}
-
 /// Extended ScrollView which can controll position
 public struct SampleView: View {
-    @State var position: CGFloat = 0
-    
     var pageSize = CGSize(width: 200, height: 200)
     var colors = Color.sGradation()
+    @EnvironmentObject var scrollState: ScrollState
 
     public var body: some View {
-        VStack {
-            PositionScrollView(
-                pageSize: pageSize,
-                horizontalScrollSetting: ScrollSetting(pageCount: 6, pageSize: 200, afterMoveType: .unit, positionScrollDelegate: self)
-            ) {
+        return VStack {
+            PositionScrollView() {
                 HStack(spacing: 0) {
                     ForEach(0...5, id: \.self){ i in
                         ZStack {
@@ -46,17 +34,24 @@ public struct SampleView: View {
                 }
             }
             VStack {
-                Text("position: \(self.position)")
-//                Text("page: \(positionInfo.page)")
-//                Text("unit: \(positionInfo.unit)")
-//                Text("positionInUnit: \(positionInfo.positionInUnit)")
+                Text("position: \(self.scrollState.horizontalScroll!.position)")
+                Text("page: \(self.scrollState.horizontalScroll!.page)")
+                Text("unit: \(self.scrollState.horizontalScroll!.unit)")
+                Text("positionInUnit: \(self.scrollState.horizontalScroll!.positionInUnit)")
             }
         }
     }
     
     struct SampleView_Previews: PreviewProvider {
         static var previews: some View {
-            return SampleView()
+            // SampleViewの中でStateを更新するために
+            let scrollState = ScrollState(
+                   pageSize: CGSize(width: 200, height: 200),
+                   horizontalScroll: Scroll(
+                       scrollSetting: ScrollSetting(pageCount: 6, pageSize: 200, afterMoveType: .unit)
+                   )
+               )
+            return SampleView().environmentObject(scrollState)
         }
     }
 }
@@ -75,6 +70,6 @@ extension SampleView: PositionScrollViewDelegate {
     }
     
     func onChangePosition(position: CGFloat) {
-        self.position = position
+//        self.position = position
     }
 }
