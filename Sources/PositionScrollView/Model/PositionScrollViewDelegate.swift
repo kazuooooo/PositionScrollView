@@ -14,4 +14,5 @@ protocol PositionScrollViewDelegate {
     func onChangeUnit(unit: Int) -> Void
     func onChangePositionInUnit(positionInUnit: CGFloat) -> Void
     func onChangePosition(position: CGFloat) -> Void
+    func onScrollEnd() -> Void
 }
