@@ -45,9 +45,13 @@ struct ScrollSetting {
     var positionScrollDelegate: PositionScrollViewDelegate?
 }
 
-struct Scroll {
+internal class Scroll: ObservableObject {
     var scrollSetting: ScrollSetting
-    private var lastPosition: CGFloat = 0
+    var lastPosition: CGFloat = 0 {
+        didSet {
+            print("set lastposition: \(lastPosition)")
+        }
+    }
     
     // delegate to scrollsetting
     var pageSize: CGFloat { scrollSetting.pageSize }
@@ -118,23 +122,29 @@ struct Scroll {
         self.positionInUnit = initialPositionInUnit
     }
     
-    
     /// Move scroll by argment value
     /// - Parameter value: Value to move
-    mutating func moveBy(value: CGFloat) {
-        let newPosition = lastPosition - value
-        self.position = self.correctPosition(position: newPosition)
+    func moveBy(value: CGFloat) {
+        let newPosition = self.lastPosition + value
+        self.position = self.correctPositionInRange(position: newPosition)
     }
     
     /// Move scroll to argment position
     /// - Parameter position: Position to move
-    mutating func moveTo(position: CGFloat) {
-        self.position = self.correctPosition(position: position)
+    func moveTo(position: CGFloat) {
+        self.position = self.correctPositionInRange(position: position)
+    }
+    
+    // MovePositionToPage
+    func moveToPage(page: Int, unit: Int = 0) {
+        let position = pageToPosition(page: page, unit: unit, positionInUnit: 0)
+        self.moveTo(position: position)
     }
     
     /// End scroll
-    mutating func end() {
+    func end() {
         self.lastPosition = position
+        self.scrollSetting.positionScrollDelegate?.onScrollEnd()
     }
     
     /// Calculate scroll endposition based on AfterScroMoveType
@@ -160,7 +170,7 @@ struct Scroll {
     ///
     /// - Parameter position: Raw position
     /// - Returns: Corrected position
-    private func correctPosition(position: CGFloat) -> CGFloat {
+    internal func correctPositionInRange(position: CGFloat) -> CGFloat {
         if(position < positionRange.lowerBound) {
             return positionRange.lowerBound
         }

@@ -102,7 +102,8 @@ public class ScrollState: ObservableObject {
             return
         }
         let directionDragValue = Scroll.dragValueForDirection(dragValue: dragValue, scrollDirection: scrollDirection)
-        self.activeScroll?.moveBy(value: directionDragValue)
+        self.activeScroll?.moveBy(value: -(directionDragValue))
+        self.objectWillChange.send()
     }
     
     /// Handle scroll end. Reset scroll state and move to endPosition.
@@ -120,6 +121,7 @@ public class ScrollState: ObservableObject {
         withAnimation(.easeOut) {
             self.activeScroll?.moveTo(position: scrollEndPosition)
             self.activeScroll?.end()
+            self.objectWillChange.send()
         }
         self.activeScrollDirection = nil
         self.scrollDetector.reset()
