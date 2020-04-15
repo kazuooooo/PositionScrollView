@@ -12,6 +12,9 @@ struct ScrollSetting {
     /// How many pages in scroll
     var pageCount: Int
     
+    /// initialPage number
+    var initialPage: Int = 0
+    
     /// Width and height of one page, basically it is the same as PositionScrollVIew frame size.
     var pageSize: CGFloat
     
@@ -47,12 +50,7 @@ struct ScrollSetting {
 
 internal class Scroll: ObservableObject {
     var scrollSetting: ScrollSetting
-    var lastPosition: CGFloat = 0 {
-        didSet {
-            print("set lastposition: \(lastPosition)")
-        }
-    }
-    
+    var lastPosition: CGFloat = 0
     // delegate to scrollsetting
     var pageSize: CGFloat { scrollSetting.pageSize }
     var unitSize: CGFloat { scrollSetting.unitSize }
@@ -111,15 +109,11 @@ internal class Scroll: ObservableObject {
     }
     
     init(
-        scrollSetting: ScrollSetting,
-        initialPage: Int = 0,
-        initialUnit: Int = 0,
-        initialPositionInUnit: CGFloat = 0
+        scrollSetting: ScrollSetting
     ){
         self.scrollSetting = scrollSetting
-        self.page = initialPage
-        self.unit = initialUnit
-        self.positionInUnit = initialPositionInUnit
+        self.page = scrollSetting.initialPage
+        self.lastPosition = pageToPosition(page: page, unit: unit, positionInUnit: positionInUnit)
     }
     
     /// Move scroll by argment value

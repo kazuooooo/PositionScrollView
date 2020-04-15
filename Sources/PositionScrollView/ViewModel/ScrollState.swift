@@ -103,6 +103,8 @@ public class ScrollState: ObservableObject {
         }
         let directionDragValue = Scroll.dragValueForDirection(dragValue: dragValue, scrollDirection: scrollDirection)
         self.activeScroll?.moveBy(value: -(directionDragValue))
+        // NOTE: 無限スクロールでScrollクラスを継承したい(変数を定義したい)
+        //       都合上Scrollをクラスにしてクラスの変更をobjectWillChange.send()で通知するようにしている。
         self.objectWillChange.send()
     }
     
@@ -119,10 +121,11 @@ public class ScrollState: ObservableObject {
             return
         }
         withAnimation(.easeOut) {
-            self.activeScroll?.moveTo(position: scrollEndPosition)
-            self.activeScroll?.end()
+            // NOTE: moveToの後にobjectWillChangeを呼ぶとなぜか画面がかくつくのでこの順序は変更しないこと。
             self.objectWillChange.send()
+            self.activeScroll?.moveTo(position: scrollEndPosition)
         }
+        self.activeScroll?.end()
         self.activeScrollDirection = nil
         self.scrollDetector.reset()
     }
