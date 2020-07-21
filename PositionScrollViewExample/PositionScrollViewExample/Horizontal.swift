@@ -18,9 +18,18 @@ public struct SampleView: View {
     @ObservedObject var scrollState = ScrollState(
         pageSize: CGSize(width: 200, height: 200),
         horizontalScroll: Scroll(
-            scrollSetting: ScrollSetting(pageCount: 6, pageSize: 200, afterMoveType: .unit)
+            scrollSetting: ScrollSetting(
+                pageCount: 6,
+                pageSize: 200,
+                afterMoveType: .unit
+            )
         )
     )
+    
+    init() {
+        scrollState.horizontalScroll?.scrollSetting.positionScrollDelegate = self
+    }
+    
     public var body: some View {
         return VStack {
             PositionScrollView(scrollState: self.scrollState) {
@@ -55,11 +64,17 @@ public struct SampleView: View {
 }
 
 extension SampleView: PositionScrollViewDelegate {
+    func onScrollEnd() {
+        print("onScrollEnd")
+    }
+    
     func onChangePage(page: Int) {
+        print("onChangePage")
 //        self.positionInfo.page = page
     }
     
     func onChangeUnit(unit: Int) {
+        print("onChangeUnit")
 //        self.positionInfo.unit = unit
     }
     
