@@ -9,7 +9,7 @@ public struct PositionScrollView<ChildView: View>: View {
     /// - Parameters:
     ///   - scrollState: scroll state
     ///   - childView: Scroll target view
-    init(
+    public init(
         scrollState: ScrollState,
         _ childView: () -> (ChildView)
     ) {

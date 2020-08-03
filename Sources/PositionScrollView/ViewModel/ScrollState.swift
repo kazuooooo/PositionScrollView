@@ -12,8 +12,8 @@ import SwiftUI
 public class ScrollState: ObservableObject {
     
     /// Dimentional
-    @Published var horizontalScroll: Scroll?
-    @Published var verticalScroll: Scroll?
+    @Published public var horizontalScroll: Scroll?
+    @Published public var verticalScroll: Scroll?
 
     var activeScroll: Scroll? {
         get {
@@ -54,7 +54,7 @@ public class ScrollState: ObservableObject {
     ///   If scroll object is nil, the direction can not be scrolled.
     /// - SeeAlso:
     ///   Scroll.swift
-    init(
+    public init(
         pageSize: CGSize,
         horizontalScroll: Scroll? = nil,
         verticalScroll: Scroll? = nil

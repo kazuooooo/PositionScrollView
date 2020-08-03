@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-protocol PositionScrollViewDelegate {
+public protocol PositionScrollViewDelegate {
     func onChangePage(page: Int) -> Void
     func onChangeUnit(unit: Int) -> Void
     func onChangePositionInUnit(positionInUnit: CGFloat) -> Void

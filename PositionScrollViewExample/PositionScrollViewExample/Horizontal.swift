@@ -64,25 +64,25 @@ public struct SampleView: View {
 }
 
 extension SampleView: PositionScrollViewDelegate {
-    func onScrollEnd() {
+    public func onScrollEnd() {
         print("onScrollEnd")
     }
     
-    func onChangePage(page: Int) {
+    public func onChangePage(page: Int) {
         print("onChangePage")
 //        self.positionInfo.page = page
     }
     
-    func onChangeUnit(unit: Int) {
+    public func onChangeUnit(unit: Int) {
         print("onChangeUnit")
 //        self.positionInfo.unit = unit
     }
     
-    func onChangePositionInUnit(positionInUnit: CGFloat) {
+    public func onChangePositionInUnit(positionInUnit: CGFloat) {
 //        self.positionInfo.positionInUnit = positionInUnit
     }
     
-    func onChangePosition(position: CGFloat) {
+    public func onChangePosition(position: CGFloat) {
 //        self.position = position
     }
 }

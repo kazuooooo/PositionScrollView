@@ -8,8 +8,8 @@ import SwiftUI
 /// unit: TODO
 /// Note: This class doesn't  care for scroll direction.
 
-internal class Scroll: ObservableObject {
-    var scrollSetting: ScrollSetting
+public class Scroll: ObservableObject {
+    public var scrollSetting: ScrollSetting
     var lastPosition: CGFloat = 0
     // delegate to scrollsetting
     var pageSize: CGFloat { scrollSetting.pageSize }
@@ -68,7 +68,7 @@ internal class Scroll: ObservableObject {
         }
     }
     
-    init(
+    public init(
         scrollSetting: ScrollSetting
     ){
         self.scrollSetting = scrollSetting
@@ -170,7 +170,7 @@ enum ScrollDirection {
     case vertical
 }
 
-enum AfterMoveType {
+public enum AfterMoveType {
     case unit   // unitごとにスクロールさせる
     case smooth // 通常の慣性スクロール
 }
