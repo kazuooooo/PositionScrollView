@@ -3,17 +3,22 @@ import SwiftUI
 /// Extended ScrollView which can controll position
 public struct PositionScrollView<ChildView: View>: View {
     @ObservedObject var scrollState: ScrollState
+    let mask: Bool
+    
     /// Scroll target view
     let childView: ChildView
     
     /// - Parameters:
     ///   - scrollState: scroll state
+    ///   - mask: Only visible single page by mask
     ///   - childView: Scroll target view
     public init(
         scrollState: ScrollState,
+        mask: Bool = false,
         _ childView: () -> (ChildView)
     ) {
         self.childView = childView()
+        self.mask = mask
         self.scrollState = scrollState
     }
     
@@ -27,10 +32,11 @@ public struct PositionScrollView<ChildView: View>: View {
                 // NOTE: Offset to correct the cordinate to upper left of a PositionScrollView.
                 x: self.scrollState.pageSize.width / 2,
                 y: self.scrollState.pageSize.height / 2
-            )
-                .mask(
+            ).if(mask) { content in
+                content.mask(
                     Rectangle().frame(width: self.scrollState.pageSize.width, height: scrollState.pageSize.height)
-            )
+                )
+            }
         }.gesture(DragGesture().onChanged {value in
             if (self.scrollState.detectScroll(dragValue: value)) {
                 self.scrollState.handleScroll(dragValue: value)
@@ -42,6 +48,16 @@ public struct PositionScrollView<ChildView: View>: View {
                 width: self.scrollState.pageSize.width,
                 height: self.scrollState.pageSize.height
         )
+    }
+}
+
+extension View {
+    func `if`<Content: View>(_ conditional: Bool, content: (Self) -> Content) -> TupleView<(Self?, Content?)> {
+        if conditional {
+            return TupleView((nil, content(self)))
+        } else {
+            return TupleView((self, nil))
+        }
     }
 }
 

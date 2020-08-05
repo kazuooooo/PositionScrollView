@@ -90,7 +90,7 @@ public class Scroll: ObservableObject {
     }
     
     // MovePositionToPage
-    func moveToPage(page: Int, unit: Int = 0) {
+    public func moveToPage(page: Int, unit: Int = 0) {
         let position = pageToPosition(page: page, unit: unit, positionInUnit: 0)
         self.moveTo(position: position)
     }
