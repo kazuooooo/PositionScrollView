@@ -96,7 +96,7 @@ public class Scroll: ObservableObject {
     }
     
     /// End scroll
-    func end() {
+    public func end() {
         self.lastPosition = position
         self.scrollSetting.positionScrollDelegate?.onScrollEnd()
     }
