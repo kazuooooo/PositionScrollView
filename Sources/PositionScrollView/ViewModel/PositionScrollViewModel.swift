@@ -1,7 +1,7 @@
 //
-//  ScrollState.swift
-//  InfinityScrollDev
-//
+//  PositionScrollViewModel.swift
+//  ViewModel for PositoinScrollView
+//  Manage dimentional scroll state by holding horizontalScroll & verticalScroll
 //  Created by 松本和也 on 2020/03/28.
 //  Copyright © 2020 松本和也. All rights reserved.
 //
@@ -9,12 +9,14 @@
 import Foundation
 import SwiftUI
 
-public class ScrollState: ObservableObject {
+
+public class PositionScrollViewModel: ObservableObject {
     
     /// Dimentional
     @Published public var horizontalScroll: Scroll?
     @Published public var verticalScroll: Scroll?
 
+    /// Currently  active acroll
     var activeScroll: Scroll? {
         get {
             switch activeScrollDirection {

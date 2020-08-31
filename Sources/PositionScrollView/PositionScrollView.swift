@@ -2,51 +2,56 @@ import SwiftUI
 
 /// Extended ScrollView which can controll position
 public struct PositionScrollView<ChildView: View>: View {
-    @ObservedObject var scrollState: ScrollState
+    @ObservedObject private var viewModel: PositionScrollViewModel
     let mask: Bool
     
     /// Scroll target view
     let childView: ChildView
     
     /// - Parameters:
-    ///   - scrollState: scroll state
+    ///   - viewModel: positionScrollViewModel
     ///   - mask: Only visible single page by mask
     ///   - childView: Scroll target view
     public init(
-        scrollState: ScrollState,
+        viewModel: PositionScrollViewModel,
         mask: Bool = false,
         _ childView: () -> (ChildView)
     ) {
         self.childView = childView()
         self.mask = mask
-        self.scrollState = scrollState
+        self.viewModel = viewModel
     }
     
     public var body: some View {
         ZStack(alignment: .topLeading) {
             self.childView.frame(alignment: .topLeading)
                 .position(
-                    x: self.scrollState.horizontalScroll?.zStackPosition ?? 0,
-                    y: self.scrollState.verticalScroll?.zStackPosition ?? 0
+                    x: viewModel.horizontalScroll?.zStackPosition ?? 0,
+                    y: viewModel.verticalScroll?.zStackPosition ?? 0
             ).offset(
                 // NOTE: Offset to correct the cordinate to upper left of a PositionScrollView.
-                x: self.scrollState.pageSize.width / 2,
-                y: self.scrollState.pageSize.height / 2
+                x: viewModel.pageSize.width / 2,
+                y: viewModel.pageSize.height / 2
             ).if(mask) { content in
+                // Mask with Single Page Rectangle
                 content.mask(
-                    Rectangle().frame(width: self.scrollState.pageSize.width, height: scrollState.pageSize.height)
+                    Rectangle().frame(
+                        width: viewModel.pageSize.width,
+                        height: viewModel.pageSize.height
+                    )
                 )
             }
         }.gesture(DragGesture().onChanged {value in
-            if (self.scrollState.detectScroll(dragValue: value)) {
-                self.scrollState.handleScroll(dragValue: value)
+            // TODO: このif分viewModel内に入れたいが厳しいかも
+            if (self.viewModel.detectScroll(dragValue: value)) {
+                self.viewModel.handleScroll(dragValue: value)
             }
         }.onEnded{endDragValue in
-            self.scrollState.handleScrollEnd(endDragValue: endDragValue)
+            self.viewModel.handleScrollEnd(endDragValue: endDragValue)
         })
             .frame(
-                width: self.scrollState.pageSize.width,
-                height: self.scrollState.pageSize.height
+                width: viewModel.pageSize.width,
+                height: viewModel.pageSize.height
         )
     }
 }
@@ -75,7 +80,7 @@ struct PositionScrollView_Previews: PreviewProvider {
             afterMoveType: .unit
         )
         
-        let scrollState = ScrollState(
+        let viewModel = PositionScrollViewModel(
             pageSize: pageSize,
             horizontalScroll: Scroll(
                 scrollSetting: scrollSetting
@@ -83,7 +88,7 @@ struct PositionScrollView_Previews: PreviewProvider {
         )
         
         return PositionScrollView(
-            scrollState: scrollState
+            viewModel: viewModel
         ) {
             HStack(spacing: 0) {
                 ZStack {

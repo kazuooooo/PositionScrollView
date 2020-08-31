@@ -14,8 +14,9 @@ import SwiftUI
 public struct SampleView: View {
     var pageSize = CGSize(width: 200, height: 200)
     var colors = Color.sGradation()
-    // 本来ScrollStateをPositionScrollViewないに含めて、↓のDelegateで変更を検知するインターフェースにしたいが、その変更を検知して親Viewで再renderするとPositionScrollViewが初期化されてスクロールがうまくいかなくなるのでStateを親から渡している。
-    @ObservedObject var scrollState = ScrollState(
+    // 本来viewModelをPositionScrollViewないに含めて、↓のDelegateで変更を検知するインターフェースにしたいが、その変更を検知して親Viewで再renderするとPositionScrollViewが初期化されてスクロールがうまくいかなくなるのでStateを親から渡している。
+    // → 多分PositionScrollView自体がviewModelを@ObservedObjectとして持っているから
+    @ObservedObject var viewModel = PositionScrollViewModel(
         pageSize: CGSize(width: 200, height: 200),
         horizontalScroll: Scroll(
             scrollSetting: ScrollSetting(
@@ -27,12 +28,12 @@ public struct SampleView: View {
     )
     
     init() {
-        scrollState.horizontalScroll?.scrollSetting.positionScrollDelegate = self
+        viewModel.horizontalScroll?.scrollSetting.positionScrollDelegate = self
     }
     
     public var body: some View {
         return VStack {
-            PositionScrollView(scrollState: self.scrollState) {
+            PositionScrollView(viewModel: self.viewModel) {
                 HStack(spacing: 0) {
                     ForEach(0...5, id: \.self){ i in
                         ZStack {
@@ -48,10 +49,10 @@ public struct SampleView: View {
                 }
             }
             VStack {
-                Text("position: \(self.scrollState.horizontalScroll!.position)")
-                Text("page: \(self.scrollState.horizontalScroll!.page)")
-                Text("unit: \(self.scrollState.horizontalScroll!.unit)")
-                Text("positionInUnit: \(self.scrollState.horizontalScroll!.positionInUnit)")
+                Text("position: \(self.viewModel.horizontalScroll!.position)")
+                Text("page: \(self.viewModel.horizontalScroll!.page)")
+                Text("unit: \(self.viewModel.horizontalScroll!.unit)")
+                Text("positionInUnit: \(self.viewModel.horizontalScroll!.positionInUnit)")
             }
         }
     }
