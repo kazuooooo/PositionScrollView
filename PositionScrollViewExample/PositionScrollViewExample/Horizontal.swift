@@ -65,6 +65,9 @@ public struct SampleView: View {
 }
 
 extension SampleView: PositionScrollViewDelegate {
+    public func onScrollStart() {
+        print("onScrollStart")
+    }
     public func onScrollEnd() {
         print("onScrollEnd")
     }

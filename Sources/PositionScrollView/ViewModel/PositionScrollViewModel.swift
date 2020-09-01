@@ -39,7 +39,18 @@ public class PositionScrollViewModel: ObservableObject {
             }
         }
     }
-    var activeScrollDirection: ScrollDirection?
+    var activeScrollDirection: ScrollDirection? {
+        didSet {
+            switch activeScrollDirection {
+            case .horizontal:
+                self.horizontalScroll?.scrollSetting.positionScrollDelegate?.onScrollStart()
+            case .vertical:
+                self.verticalScroll?.scrollSetting.positionScrollDelegate?.onScrollStart()
+            case .none:
+                return
+            }
+        }
+    }
     var isScrolling: Bool { self.activeScrollDirection != nil }
     /// pageSize means width, height size of scrollview
     var pageSize: CGSize
