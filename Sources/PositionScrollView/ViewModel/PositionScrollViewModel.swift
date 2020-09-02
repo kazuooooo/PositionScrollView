@@ -12,7 +12,7 @@ import SwiftUI
 /**
  ViewModel of PositoinScrollView
  */
-public class PositionScrollViewModel: ObservableObject {
+class PositionScrollViewModel: ObservableObject {
     
     /// Dimentional
     @Published public var horizontalScroll: Scroll?

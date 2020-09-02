@@ -7,17 +7,32 @@ import SwiftUI
  * To see more detail, please read README.md.
  * Note: This class doesn't  care for scroll direction.
  */
-public class Scroll: ObservableObject {
+internal class Scroll: ObservableObject {
     /// Scroll setting
     public var scrollSetting: ScrollSetting
+    var pageLength: CGFloat
+    
     /// Store last position
     private var lastPosition: CGFloat = 0
     
     /// Delegate to scrollsetting
-    var pageSize: CGFloat { scrollSetting.pageLength }
-    var unitSize: CGFloat { scrollSetting.unitLength }
-    var contentSize: CGFloat { scrollSetting.contentSize }
-    var positionRange: ClosedRange<CGFloat> { scrollSetting.movableRangeOfScroll }
+    var unitSize: CGFloat { unitLength }
+    
+    /// Length of single unit
+    var unitLength: CGFloat {
+        pageLength / CGFloat(scrollSetting.unitCountInPage)
+    }
+    
+    /// Total length of scrollView
+    var contentSize: CGFloat {
+        pageLength * CGFloat(scrollSetting.pageCount)
+    }
+    
+    /// Movable range of scroll position
+    var movableRangeOfScroll: ClosedRange<CGFloat> {
+        0...(contentSize - pageLength)
+    }
+
     var scrollSpeedToDetect: Double { scrollSetting.scrollSpeedToDetect }
     
     /// Position based on the start of page 0
@@ -41,8 +56,8 @@ public class Scroll: ObservableObject {
               page = 2, positionInPage = 530
               unit = 1, positionInUnit = 230
              */
-            self.page = Int(newValue / pageSize)
-            self.positionInPage = CGFloat(Double(newValue).truncatingRemainder(dividingBy: Double(pageSize)))
+            self.page = Int(newValue / pageLength)
+            self.positionInPage = CGFloat(Double(newValue).truncatingRemainder(dividingBy: Double(pageLength)))
             self.unit = Int(Double(self.positionInPage) / Double(unitSize))
             self.positionInUnit = CGFloat(Double(self.positionInPage).truncatingRemainder(dividingBy: Double(unitSize)))
         }
@@ -50,7 +65,7 @@ public class Scroll: ObservableObject {
     
     /// Position for Zstack using in view.
     var zStackPosition: CGFloat {
-        -(position + scrollSetting.pageLength / 2 - scrollSetting.contentSize / 2)
+        -(position + pageLength / 2 - contentSize / 2)
     }
     
     /// Current page
@@ -91,10 +106,12 @@ public class Scroll: ObservableObject {
     }
     
     public init(
-        scrollSetting: ScrollSetting
+        scrollSetting: ScrollSetting,
+        pageLength: CGFloat
     ){
         self.scrollSetting = scrollSetting
         self.page = scrollSetting.initialPage
+        self.pageLength = pageLength
         self.lastPosition = pageToPosition(page: page, unit: unit, positionInUnit: positionInUnit)
     }
     
@@ -148,18 +165,18 @@ public class Scroll: ObservableObject {
     /// - Parameter position: Raw position
     /// - Returns: Corrected position
     internal func correctPositionInRange(position: CGFloat) -> CGFloat {
-        if(position < positionRange.lowerBound) {
-            return positionRange.lowerBound
+        if(position < movableRangeOfScroll.lowerBound) {
+            return movableRangeOfScroll.lowerBound
         }
-        if(position > positionRange.upperBound) {
-            return positionRange.upperBound
+        if(position > movableRangeOfScroll.upperBound) {
+            return movableRangeOfScroll.upperBound
         }
         return position
     }
     
     /// Convert page/unit position.
     private func pageToPosition(page: Int, unit: Int, positionInUnit: CGFloat) -> CGFloat {
-        CGFloat(page) * pageSize + CGFloat(unit) * unitSize + positionInUnit
+        CGFloat(page) * pageLength + CGFloat(unit) * unitSize + positionInUnit
     }
 }
 

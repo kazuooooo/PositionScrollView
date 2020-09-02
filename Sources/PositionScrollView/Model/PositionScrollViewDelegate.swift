@@ -46,9 +46,9 @@ public protocol PositionScrollViewDelegate {
 extension PositionScrollViewDelegate {
     public func onScrollStart(){}
     func onChangePage(page: Int) -> Void {}
-    func onChangeUnit(unit: Int) -> Void {}
-    func onChangePositionInPage(positionInPage: CGFloat) -> Void {}
-    func onChangePositionInUnit(positionInUnit: CGFloat) -> Void {}
+    public func onChangeUnit(unit: Int) -> Void {}
+    public func onChangePositionInPage(positionInPage: CGFloat) -> Void {}
+    public func onChangePositionInUnit(positionInUnit: CGFloat) -> Void {}
     func onChangePosition(position: CGFloat) -> Void {}
     func onScrollEnd() -> Void {}
 }

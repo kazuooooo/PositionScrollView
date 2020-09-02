@@ -11,61 +11,52 @@ import Foundation
 import SwiftUI
 
 /// Extended ScrollView which can controll position
-public struct SampleView: View {
-    var pageSize = CGSize(width: 200, height: 200)
-    var colors = Color.sGradation()
-    // 本来viewModelをPositionScrollViewないに含めて、↓のDelegateで変更を検知するインターフェースにしたいが、その変更を検知して親Viewで再renderするとPositionScrollViewが初期化されてスクロールがうまくいかなくなるのでStateを親から渡している。
-    // → 多分PositionScrollView自体がviewModelを@ObservedObjectとして持っているから
-    @ObservedObject var viewModel = PositionScrollViewModel(
-        pageSize: CGSize(width: 200, height: 200),
-        horizontalScroll: Scroll(
-            scrollSetting: ScrollSetting(
-                pageCount: 6,
-                pageSize: 200,
-                afterMoveType: .fitToNearestUnit
-            )
-        )
-    )
-    
-    init() {
-        viewModel.horizontalScroll?.scrollSetting.positionScrollDelegate = self
-    }
-    
+public struct MinimalExample: View, PositionScrollViewDelegate {
+    /// Page size of Scroll
+    var pageSize = CGSize(width: 200, height: 300)
+//    @State var position: CGFloat = 0
+//    @State var page = 0
+
     public var body: some View {
+        // 1. Define ScrollSetting
+        let scrollSetting = ScrollSetting(
+            pageCount: 6,
+            afterMoveType: .fitToNearestUnit
+        )
+    
         return VStack {
-            PositionScrollView(viewModel: self.viewModel) {
+            PositionScrollView(
+                pageSize: pageSize,
+                horizontalScrollSetting: scrollSetting,
+                delegate: self
+            ) {
                 HStack(spacing: 0) {
                     ForEach(0...5, id: \.self){ i in
                         ZStack {
                             Rectangle()
-                                .fill(self.colors[i])
+                                .fill(Color.white)
+                                .border(Color.black)
                                 .frame(
                                     width: self.pageSize.width, height: self.pageSize.height
                             )
-                            Text("page\(i)")
+                            Text("Page\(i)")
                         }
                     }
                     
                 }
             }
-            VStack {
-                Text("position: \(self.viewModel.horizontalScroll!.position)")
-                Text("page: \(self.viewModel.horizontalScroll!.page)")
-                Text("unit: \(self.viewModel.horizontalScroll!.unit)")
-                Text("positionInPage: \(self.viewModel.horizontalScroll!.positionInPage)")
-                Text("positionInUnit: \(self.viewModel.horizontalScroll!.positionInUnit)")
-            }
+//            Text("page: \(page)")
+//            Text("position: \(position)")
         }
     }
     
     struct SampleView_Previews: PreviewProvider {
         static var previews: some View {
-            return SampleView()
+            return MinimalExample()
         }
     }
-}
-
-extension SampleView: PositionScrollViewDelegate {
+    
+    // Delegate methods of PositionScrollView
     public func onScrollStart() {
         print("onScrollStart")
     }
@@ -74,23 +65,12 @@ extension SampleView: PositionScrollViewDelegate {
     }
     
     public func onChangePage(page: Int) {
-        print("onChangePage")
-//        self.positionInfo.page = page
-    }
-    
-    public func onChangePositionInPage(positionInPage: CGFloat) {
-        
-    }
-    public func onChangeUnit(unit: Int) {
-        print("onChangeUnit")
-//        self.positionInfo.unit = unit
-    }
-    
-    public func onChangePositionInUnit(positionInUnit: CGFloat) {
-//        self.positionInfo.positionInUnit = positionInUnit
+        print("onChangePage to page: \(page)")
+//        self.page = page
     }
     
     public func onChangePosition(position: CGFloat) {
+        print("position: \(position)")
 //        self.position = position
     }
 }
