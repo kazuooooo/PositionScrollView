@@ -12,11 +12,10 @@ public class Scroll: ObservableObject {
     private var lastPosition: CGFloat = 0
     
     /// Delegate to scrollsetting
-    var pageSize: CGFloat { scrollSetting.pageSize }
-    var unitSize: CGFloat { scrollSetting.unitSize }
+    var pageSize: CGFloat { scrollSetting.pageLength }
+    var unitSize: CGFloat { scrollSetting.unitLength }
     var contentSize: CGFloat { scrollSetting.contentSize }
-    var pageZeroOffset: CGFloat { scrollSetting.pageZeroOffset }
-    var positionRange: ClosedRange<CGFloat> { scrollSetting.positionRange }
+    var positionRange: ClosedRange<CGFloat> { scrollSetting.movableRangeOfScroll }
     var scrollSpeedToDetect: Double { scrollSetting.scrollSpeedToDetect }
     
     /// Position based on the start of page 0
@@ -47,7 +46,7 @@ public class Scroll: ObservableObject {
     
     /// Position for Zstack using in view.
     var zStackPosition: CGFloat {
-        -(position + scrollSetting.pageSize / 2 - scrollSetting.contentSize / 2)
+        -(position + scrollSetting.pageLength / 2 - scrollSetting.contentSize / 2)
     }
     
     /// Current page

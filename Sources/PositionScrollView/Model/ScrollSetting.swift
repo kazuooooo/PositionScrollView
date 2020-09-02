@@ -14,18 +14,18 @@ public struct ScrollSetting {
     /// How many pages in scroll
     var pageCount: Int
     
-    /// initialPage number
+    /// InitialPage number
     var initialPage: Int
     
     /// Width and height of one page, basically it is the same as PositionScrollVIew frame size.
-    var pageSize: CGFloat
+    var pageLength: CGFloat
     
     /// How many units in one page
     var unitCountInPage: Int
     
-    /// Behaviour after finger release.
-    /// .smooth: Move follows ineritia
-    /// .unit: Move to nearest unit position
+    /// Behavior of scroll move after scroll ends
+    /// fitToNearestUnit: Fit nearest unit edge
+    /// momentum: It move until momentum disappear.
     var afterMoveType: AfterScrollEndsBehavior = .momentum
     
     /// Scroll speed threshold to detect
@@ -44,26 +44,32 @@ public struct ScrollSetting {
     ) {
         self.pageCount = pageCount
         self.initialPage = initialPage
-        self.pageSize = pageSize
+        self.pageLength = pageSize
         self.unitCountInPage = unitCountInPage
         self.afterMoveType = afterMoveType
         self.scrollSpeedToDetect = scrollSpeedToDetect
     }
     
-    var unitSize: CGFloat {
-        pageSize / CGFloat(unitCountInPage)
+    /// Length of single unit
+    var unitLength: CGFloat {
+        pageLength / CGFloat(unitCountInPage)
     }
     
+    /// Total length of scrollView
     var contentSize: CGFloat {
-        pageSize * CGFloat(pageCount)
+        pageLength * CGFloat(pageCount)
     }
     
-    var pageZeroOffset: CGFloat {
-        contentSize / 2 - pageSize / 2
+    /// Movable range of scroll position
+    var movableRangeOfScroll: ClosedRange<CGFloat> {
+        0...(contentSize - pageLength)
     }
     
-    var positionRange: ClosedRange<CGFloat> {
-        0...(contentSize - pageSize)
+    /// Behavior of scroll move after scroll ends
+    /// fitToNearestUnit: Fit nearest unit edge
+    /// momentum: It move until momentum disappear.
+    public enum AfterScrollEndsBehavior {
+        case fitToNearestUnit
+        case momentum
     }
-    
 }
