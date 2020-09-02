@@ -4,8 +4,11 @@ import SwiftUI
 public struct PositionScrollView<ChildView: View>: View {
     
     /// View model
-    // FIXME:
-    //
+    // 😢FIXME😢:
+    /*
+     Originally, I want to create viewModel in this Class not passed from parent view.
+     But if I do that, PositionScrollView is undesirably reset when parent view's state is updated.
+    */
     @ObservedObject var viewModel: PositionScrollViewModel
     
     /// Mask with single page size.

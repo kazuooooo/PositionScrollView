@@ -1,27 +1,28 @@
 //
-//  Sample.swift
+//  MinimalVerticalExample.swift
 //  PositionScrollViewExample
 //
-//  Created by 松本和也 on 2020/04/02.
+//  Created by 松本和也 on 2020/09/02.
 //  Copyright © 2020 松本和也. All rights reserved.
 //
 
-import Foundation
+import SwiftUI
 
+import Foundation
 import SwiftUI
 
 /// Extended ScrollView which can controll position
-public struct MinimalExample: View, PositionScrollViewDelegate {
+public struct MinimalVerticalExample: View, PositionScrollViewDelegate {
     /// Page size of Scroll
     var pageSize = CGSize(width: 200, height: 300)
     
     // Create PositionScrollViewModel
-    // (Need to create in parent view to bind with PostionScrollView)
+    // (Need to create in parent view to bind the state between this view and PositionScrollView)
     @ObservedObject var psViewModel = PositionScrollViewModel(
         pageSize: CGSize(width: 200, height: 300),
-        horizontalScroll: Scroll(
+        verticalScroll: Scroll(
             scrollSetting: ScrollSetting(pageCount: 6, afterMoveType: .fitToNearestUnit),
-            pageLength: 200
+            pageLength: 300
         )
     )
     
@@ -33,7 +34,7 @@ public struct MinimalExample: View, PositionScrollViewDelegate {
                 viewModel: self.psViewModel,
                 delegate: self
             ) {
-                HStack(spacing: 0) {
+                VStack(spacing: 0) {
                     ForEach(0...5, id: \.self){ i in
                         ZStack {
                             Rectangle()
@@ -48,15 +49,14 @@ public struct MinimalExample: View, PositionScrollViewDelegate {
                     
                 }
             }
-            Text("page: \(self.psViewModel.horizontalScroll?.page ?? 0)")
-            Text("position: \(self.psViewModel.horizontalScroll?.position ?? 0)")
-            Text("page: \(self.hogePage)")
+            Text("page: \(self.psViewModel.verticalScroll?.page ?? 0)")
+            Text("position: \(self.psViewModel.verticalScroll?.position ?? 0)")
         }
     }
     
     struct SampleView_Previews: PreviewProvider {
         static var previews: some View {
-            return MinimalExample()
+            return MinimalHorizontalExample()
         }
     }
     
@@ -74,5 +74,12 @@ public struct MinimalExample: View, PositionScrollViewDelegate {
     
     public func onScrollEnd() {
         print("onScrollEnd")
+    }
+}
+
+
+struct MinimalVerticalExample_Previews: PreviewProvider {
+    static var previews: some View {
+        MinimalVerticalExample()
     }
 }
