@@ -26,7 +26,7 @@ public struct ScrollSetting {
     /// Behaviour after finger release.
     /// .smooth: Move follows ineritia
     /// .unit: Move to nearest unit position
-    var afterMoveType: AfterMoveType = .smooth
+    var afterMoveType: AfterScrollEndsBehavior = .momentum
     
     /// Scroll speed threshold to detect
     var scrollSpeedToDetect: Double
@@ -39,7 +39,7 @@ public struct ScrollSetting {
         initialPage: Int = 0,
         pageSize: CGFloat,
         unitCountInPage: Int = 1,
-        afterMoveType: AfterMoveType = .smooth,
+        afterMoveType: AfterScrollEndsBehavior = .momentum,
         scrollSpeedToDetect: Double = 30
     ) {
         self.pageCount = pageCount

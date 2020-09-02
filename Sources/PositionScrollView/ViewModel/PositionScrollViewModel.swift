@@ -114,7 +114,10 @@ public class PositionScrollViewModel: ObservableObject {
         guard let scrollDirection = self.activeScrollDirection else {
             return
         }
-        let directionDragValue = Scroll.dragValueForDirection(dragValue: dragValue, scrollDirection: scrollDirection)
+        let directionDragValue = Scroll.dragValueForScrollDirection(
+            dragValue: dragValue,
+            scrollDirection: scrollDirection
+        )
         self.activeScroll?.moveBy(value: -(directionDragValue))
         // NOTE: 無限スクロールでScrollクラスを継承したい(変数を定義したい)
         //       都合上Scrollをクラスにしてクラスの変更をobjectWillChange.send()で通知するようにしている。
@@ -128,7 +131,7 @@ public class PositionScrollViewModel: ObservableObject {
         guard let scrollDirection = self.activeScrollDirection else {
                    return
                }
-        let directionendDragValue = Scroll.endDragValueForDirection(endDragValue: endDragValue, scrollDirection: scrollDirection)
+        let directionendDragValue = Scroll.endDragValueForScrollDirection(endDragValue: endDragValue, scrollDirection: scrollDirection)
         
         guard let scrollEndPosition = self.activeScroll?.calcScrollEndPosition(predictedEndValue: directionendDragValue) else {
             return

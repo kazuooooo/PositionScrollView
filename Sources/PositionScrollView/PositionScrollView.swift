@@ -77,7 +77,7 @@ struct PositionScrollView_Previews: PreviewProvider {
             pageCount: 2,
             initialPage: 0,
             pageSize: 200,
-            afterMoveType: .unit
+            afterMoveType: .momentum
         )
         
         let viewModel = PositionScrollViewModel(

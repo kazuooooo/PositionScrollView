@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B95FAB8624FF3C26000D7196 /* ScrollDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FAB8524FF3C26000D7196 /* ScrollDirection.swift */; };
+		B95FAB8824FF3CF4000D7196 /* AfterScrollMoveBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FAB8724FF3CF4000D7196 /* AfterScrollMoveBehavior.swift */; };
 		B9B582EE243D934400036373 /* PositionScrollViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B582ED243D934400036373 /* PositionScrollViewDelegate.swift */; };
 		B9E9295424C6B9EA00251527 /* ScrollSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E9295324C6B9EA00251527 /* ScrollSetting.swift */; };
 		B9F543BB2435E22900F0A1DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F543BA2435E22900F0A1DC /* AppDelegate.swift */; };
@@ -23,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		B95FAB8524FF3C26000D7196 /* ScrollDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollDirection.swift; sourceTree = "<group>"; };
+		B95FAB8724FF3CF4000D7196 /* AfterScrollMoveBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AfterScrollMoveBehavior.swift; sourceTree = "<group>"; };
 		B9B582ED243D934400036373 /* PositionScrollViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionScrollViewDelegate.swift; sourceTree = "<group>"; };
 		B9E9295324C6B9EA00251527 /* ScrollSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollSetting.swift; sourceTree = "<group>"; };
 		B9F543B72435E22900F0A1DC /* PositionScrollViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PositionScrollViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -125,6 +129,8 @@
 				B9F543D52435E24100F0A1DC /* ScrollDetector.swift */,
 				B9B582ED243D934400036373 /* PositionScrollViewDelegate.swift */,
 				B9E9295324C6B9EA00251527 /* ScrollSetting.swift */,
+				B95FAB8524FF3C26000D7196 /* ScrollDirection.swift */,
+				B95FAB8724FF3CF4000D7196 /* AfterScrollMoveBehavior.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -208,6 +214,8 @@
 				B9F543BB2435E22900F0A1DC /* AppDelegate.swift in Sources */,
 				B9E9295424C6B9EA00251527 /* ScrollSetting.swift in Sources */,
 				B9F543D82435E24100F0A1DC /* Scroll.swift in Sources */,
+				B95FAB8824FF3CF4000D7196 /* AfterScrollMoveBehavior.swift in Sources */,
+				B95FAB8624FF3C26000D7196 /* ScrollDirection.swift in Sources */,
 				B9F543BD2435E22900F0A1DC /* SceneDelegate.swift in Sources */,
 				B9F543DB2435F5D300F0A1DC /* PositionScrollView.swift in Sources */,
 			);

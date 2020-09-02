@@ -22,7 +22,7 @@ public struct SampleView: View {
             scrollSetting: ScrollSetting(
                 pageCount: 6,
                 pageSize: 200,
-                afterMoveType: .unit
+                afterMoveType: .momentum
             )
         )
     )
@@ -52,6 +52,7 @@ public struct SampleView: View {
                 Text("position: \(self.viewModel.horizontalScroll!.position)")
                 Text("page: \(self.viewModel.horizontalScroll!.page)")
                 Text("unit: \(self.viewModel.horizontalScroll!.unit)")
+                Text("positionInPage: \(self.viewModel.horizontalScroll!.positionInPage)")
                 Text("positionInUnit: \(self.viewModel.horizontalScroll!.positionInUnit)")
             }
         }
@@ -77,6 +78,9 @@ extension SampleView: PositionScrollViewDelegate {
 //        self.positionInfo.page = page
     }
     
+    public func onChangePositionInPage(positionInPage: CGFloat) {
+        
+    }
     public func onChangeUnit(unit: Int) {
         print("onChangeUnit")
 //        self.positionInfo.unit = unit

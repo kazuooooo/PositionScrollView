@@ -1,17 +1,17 @@
 import Foundation
 import UIKit
 import SwiftUI
-/// Scroll class
-/// encapsulates information about scroll
+/// Scroll encapsulates information about scroll
 /// To controll position easily, Scroll class use page and unit.
-/// page: TODO
-/// unit: TODO
+/// To see more detail, please read README.md.
 /// Note: This class doesn't  care for scroll direction.
-
 public class Scroll: ObservableObject {
+    /// Scroll setting
     public var scrollSetting: ScrollSetting
-    var lastPosition: CGFloat = 0
-    // delegate to scrollsetting
+    /// Store last position
+    private var lastPosition: CGFloat = 0
+    
+    /// Delegate to scrollsetting
     var pageSize: CGFloat { scrollSetting.pageSize }
     var unitSize: CGFloat { scrollSetting.unitSize }
     var contentSize: CGFloat { scrollSetting.contentSize }
@@ -19,40 +19,57 @@ public class Scroll: ObservableObject {
     var positionRange: ClosedRange<CGFloat> { scrollSetting.positionRange }
     var scrollSpeedToDetect: Double { scrollSetting.scrollSpeedToDetect }
     
-    // 0ページ目の端を基準にしたposition
+    /// Position based on the start of page 0
     var position: CGFloat {
         get { pageToPosition(page: page, unit: unit, positionInUnit: positionInUnit) }
-        // page = 600
-        // unit = 300
-        // newValue = 1230の場合
-        // page = 1530 / 600 = 2
-        // unit = (1530 - (page * pageSize)) / 300 = 1
-        // positionInUnit = 1530 - page * pageSize - unit * unitSize
+
         set {
             if newValue != position {
                 self.scrollSetting.positionScrollDelegate?.onChangePosition(position: position)
             }
+            
+            // Set position related variables based on new position raw value.
+            // ex) pageSize = 600, unitSize = 300, newValue = 1730
+            // page = 1730 / 600 = 2
+            // positionInPage = 1730 % 600 = 530
+            // unit = 530 / 300 = 1
+            // positionInUnit = 530 % 300 = 230
+            //
+            // So
+            // page = 2, positionInPage = 530
+            // unit = 1, positionInUnit = 230
             self.page = Int(newValue / pageSize)
-            let unitValue = Double(newValue).truncatingRemainder(dividingBy: Double(pageSize))
-            self.unit = Int(unitValue / Double(unitSize))
-            self.positionInUnit = CGFloat(Double(unitValue).truncatingRemainder(dividingBy: Double(unitSize)))
+            self.positionInPage = CGFloat(Double(newValue).truncatingRemainder(dividingBy: Double(pageSize)))
+            self.unit = Int(Double(self.positionInPage) / Double(unitSize))
+            self.positionInUnit = CGFloat(Double(self.positionInPage).truncatingRemainder(dividingBy: Double(unitSize)))
         }
     }
     
-    // position for Zstack
+    /// Position for Zstack using in view.
     var zStackPosition: CGFloat {
         -(position + scrollSetting.pageSize / 2 - scrollSetting.contentSize / 2)
     }
     
-    //
+    /// Current page
     var page: Int = 0 {
-        // NOTE: これだとちょっとタイミングが早すぎるかも...
+        // NOTE: Timing mingt be too fast
         didSet {
             if page != oldValue {
                 self.scrollSetting.positionScrollDelegate?.onChangePage(page: page)
             }
         }
     }
+    
+    /// Current position in page
+    var positionInPage: CGFloat = 0 {
+        didSet {
+            if positionInPage != oldValue {
+                self.scrollSetting.positionScrollDelegate?.onChangePositionInPage(positionInPage: positionInPage)
+            }
+        }
+    }
+    
+    /// Current unit in page
     var unit: Int = 0 {
         didSet {
             if unit != oldValue {
@@ -60,6 +77,8 @@ public class Scroll: ObservableObject {
             }
         }
     }
+    
+    /// Current position in unit
     var positionInUnit: CGFloat = 0 {
         didSet {
             if positionInUnit != oldValue {
@@ -90,8 +109,12 @@ public class Scroll: ObservableObject {
     }
     
     // MovePositionToPage
-    public func moveToPage(page: Int, unit: Int = 0) {
-        let position = pageToPosition(page: page, unit: unit, positionInUnit: 0)
+    public func moveToPage(page: Int, unit: Int = 0, positionInUnit: CGFloat = 0) {
+        let position = pageToPosition(
+            page: page,
+            unit: unit,
+            positionInUnit: positionInUnit
+        )
         self.moveTo(position: position)
     }
     
@@ -101,17 +124,14 @@ public class Scroll: ObservableObject {
         self.scrollSetting.positionScrollDelegate?.onScrollEnd()
     }
     
-    /// Calculate scroll endposition based on AfterScroMoveType
-    ///
-    /// .smooth: Move follows ineritia
-    /// .unit: Move to nearest unit position
+    /// Calculate scroll endposition based on AfterScrollEndsBehavior
     /// - Parameter predictedEndValue: Predicted scroll end value by ineritia
     /// - Returns: Scroll end position
     func calcScrollEndPosition(predictedEndValue: CGFloat) -> CGFloat {
         switch scrollSetting.afterMoveType {
-        case .smooth:
+        case .momentum:
             return position - predictedEndValue
-        case .unit:
+        case .fitToNearestUnit:
             if positionInUnit < unitSize / 2 {
                 return pageToPosition(page: page, unit: unit, positionInUnit: 0)
             } else {
@@ -146,7 +166,10 @@ public class Scroll: ObservableObject {
 }
 
 extension Scroll {
-    static func dragValueForDirection(dragValue: DragGesture.Value, scrollDirection: ScrollDirection) -> CGFloat {
+    static func dragValueForScrollDirection(
+        dragValue: DragGesture.Value,
+        scrollDirection: ScrollDirection
+    ) -> CGFloat {
         switch scrollDirection {
         case .horizontal:
             return dragValue.translation.width
@@ -155,7 +178,10 @@ extension Scroll {
         }
     }
 
-    static func endDragValueForDirection(endDragValue: DragGesture.Value, scrollDirection: ScrollDirection) -> CGFloat {
+    static func endDragValueForScrollDirection(
+        endDragValue: DragGesture.Value,
+        scrollDirection: ScrollDirection
+    ) -> CGFloat {
         switch scrollDirection {
         case .horizontal:
             return endDragValue.predictedEndTranslation.width
@@ -163,14 +189,4 @@ extension Scroll {
             return endDragValue.predictedEndTranslation.height
         }
     }
-}
-
-enum ScrollDirection {
-    case horizontal
-    case vertical
-}
-
-public enum AfterMoveType {
-    case unit   // unitごとにスクロールさせる
-    case smooth // 通常の慣性スクロール
 }

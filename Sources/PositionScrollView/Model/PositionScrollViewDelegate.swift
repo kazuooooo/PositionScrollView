@@ -25,9 +25,14 @@ public protocol PositionScrollViewDelegate {
     /// - Parameter unit: Unit number
     func onChangeUnit(unit: Int) -> Void
     
+    /// Called when position in page changed.
+    /// - Parameter positionInpage: Position in unit float value
+    func onChangePositionInPage(positionInPage: CGFloat) -> Void
+    
     /// Called when position in unit changed.
     /// - Parameter positionInUnit: Position in unit float value
     func onChangePositionInUnit(positionInUnit: CGFloat) -> Void
+    
     
     /// Called when position changed.
     /// - Parameter position: Position float value
@@ -42,6 +47,7 @@ extension PositionScrollViewDelegate {
     public func onScrollStart(){}
     func onChangePage(page: Int) -> Void {}
     func onChangeUnit(unit: Int) -> Void {}
+    func onChangePositionInPage(positionInPage: CGFloat) -> Void {}
     func onChangePositionInUnit(positionInUnit: CGFloat) -> Void {}
     func onChangePosition(position: CGFloat) -> Void {}
     func onScrollEnd() -> Void {}
