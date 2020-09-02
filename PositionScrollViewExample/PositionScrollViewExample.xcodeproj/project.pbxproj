@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		B95FAB8624FF3C26000D7196 /* ScrollDirection.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95FAB8524FF3C26000D7196 /* ScrollDirection.swift */; };
 		B993558424FF7DB800BD9CD4 /* MinimalVerticalExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = B993558324FF7DB800BD9CD4 /* MinimalVerticalExample.swift */; };
+		B993558624FF805900BD9CD4 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B993558524FF805900BD9CD4 /* Colors.swift */; };
+		B993558824FF829200BD9CD4 /* DimentionalScrollExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = B993558724FF829200BD9CD4 /* DimentionalScrollExample.swift */; };
 		B9B582EE243D934400036373 /* PositionScrollViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B582ED243D934400036373 /* PositionScrollViewDelegate.swift */; };
 		B9E9295424C6B9EA00251527 /* ScrollSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E9295324C6B9EA00251527 /* ScrollSetting.swift */; };
 		B9F543BB2435E22900F0A1DC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F543BA2435E22900F0A1DC /* AppDelegate.swift */; };
@@ -26,6 +28,8 @@
 /* Begin PBXFileReference section */
 		B95FAB8524FF3C26000D7196 /* ScrollDirection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollDirection.swift; sourceTree = "<group>"; };
 		B993558324FF7DB800BD9CD4 /* MinimalVerticalExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MinimalVerticalExample.swift; sourceTree = "<group>"; };
+		B993558524FF805900BD9CD4 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		B993558724FF829200BD9CD4 /* DimentionalScrollExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimentionalScrollExample.swift; sourceTree = "<group>"; };
 		B9B582ED243D934400036373 /* PositionScrollViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionScrollViewDelegate.swift; sourceTree = "<group>"; };
 		B9E9295324C6B9EA00251527 /* ScrollSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScrollSetting.swift; sourceTree = "<group>"; };
 		B9F543B72435E22900F0A1DC /* PositionScrollViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PositionScrollViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +85,8 @@
 				B9F543C22435E22A00F0A1DC /* Preview Content */,
 				B9F543DC2435F6B800F0A1DC /* MinimalHorizontalExample.swift */,
 				B993558324FF7DB800BD9CD4 /* MinimalVerticalExample.swift */,
+				B993558724FF829200BD9CD4 /* DimentionalScrollExample.swift */,
+				B993558524FF805900BD9CD4 /* Colors.swift */,
 			);
 			path = PositionScrollViewExample;
 			sourceTree = "<group>";
@@ -204,6 +210,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B993558424FF7DB800BD9CD4 /* MinimalVerticalExample.swift in Sources */,
+				B993558624FF805900BD9CD4 /* Colors.swift in Sources */,
+				B993558824FF829200BD9CD4 /* DimentionalScrollExample.swift in Sources */,
 				B9B582EE243D934400036373 /* PositionScrollViewDelegate.swift in Sources */,
 				B9F543D62435E24100F0A1DC /* PositionScrollViewModel.swift in Sources */,
 				B9F543DD2435F6B800F0A1DC /* MinimalHorizontalExample.swift in Sources */,

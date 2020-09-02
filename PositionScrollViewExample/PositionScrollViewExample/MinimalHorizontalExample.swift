@@ -19,7 +19,7 @@ public struct MinimalHorizontalExample: View, PositionScrollViewDelegate {
     @ObservedObject var psViewModel = PositionScrollViewModel(
         pageSize: CGSize(width: 200, height: 300),
         horizontalScroll: Scroll(
-            scrollSetting: ScrollSetting(pageCount: 6, afterMoveType: .fitToNearestUnit),
+            scrollSetting: ScrollSetting(pageCount: 5, afterMoveType: .fitToNearestUnit),
             pageLength: 200
         )
     )
@@ -33,15 +33,17 @@ public struct MinimalHorizontalExample: View, PositionScrollViewDelegate {
                 delegate: self
             ) {
                 HStack(spacing: 0) {
-                    ForEach(0...5, id: \.self){ i in
+                    ForEach(0...4, id: \.self){ i in
                         ZStack {
                             Rectangle()
-                                .fill(Color.white)
+                                .fill(BLUES[i])
                                 .border(Color.black)
                                 .frame(
                                     width: self.pageSize.width, height: self.pageSize.height
                             )
                             Text("Page\(i)")
+                                .foregroundColor(Color.white)
+                                .font(.system(size: 24, weight: .heavy, design: .default))
                         }
                     }
                     

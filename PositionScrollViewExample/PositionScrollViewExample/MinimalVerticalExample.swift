@@ -21,7 +21,7 @@ public struct MinimalVerticalExample: View, PositionScrollViewDelegate {
     @ObservedObject var psViewModel = PositionScrollViewModel(
         pageSize: CGSize(width: 200, height: 300),
         verticalScroll: Scroll(
-            scrollSetting: ScrollSetting(pageCount: 6, afterMoveType: .fitToNearestUnit),
+            scrollSetting: ScrollSetting(pageCount: 5, afterMoveType: .fitToNearestUnit),
             pageLength: 300
         )
     )
@@ -35,15 +35,17 @@ public struct MinimalVerticalExample: View, PositionScrollViewDelegate {
                 delegate: self
             ) {
                 VStack(spacing: 0) {
-                    ForEach(0...5, id: \.self){ i in
+                    ForEach(0...4, id: \.self){ i in
                         ZStack {
                             Rectangle()
-                                .fill(Color.white)
-                                .border(Color.black)
+                                .fill(BLUES[i])
+                                .border(Color.white)
                                 .frame(
                                     width: self.pageSize.width, height: self.pageSize.height
                             )
                             Text("Page\(i)")
+                            .foregroundColor(Color.white)
+                            .font(.system(size: 24, weight: .heavy, design: .default))
                         }
                     }
                     
