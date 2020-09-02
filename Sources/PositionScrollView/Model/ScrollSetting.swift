@@ -65,11 +65,12 @@ public struct ScrollSetting {
         0...(contentSize - pageLength)
     }
     
-    /// Behavior of scroll move after scroll ends
-    /// fitToNearestUnit: Fit nearest unit edge
-    /// momentum: It move until momentum disappear.
-    public enum AfterScrollEndsBehavior {
-        case fitToNearestUnit
-        case momentum
-    }
+}
+
+/// Behavior of scroll move after scroll ends
+/// fitToNearestUnit: Fit nearest unit edge
+/// momentum: It move until momentum disappear.
+public enum AfterScrollEndsBehavior {
+    case fitToNearestUnit
+    case momentum
 }

@@ -9,14 +9,16 @@
 import Foundation
 import SwiftUI
 
-
+/**
+ ViewModel of PositoinScrollView
+ */
 public class PositionScrollViewModel: ObservableObject {
     
     /// Dimentional
     @Published public var horizontalScroll: Scroll?
     @Published public var verticalScroll: Scroll?
 
-    /// Currently  active acroll
+    /// Currently  active scroll
     var activeScroll: Scroll? {
         get {
             switch activeScrollDirection {
@@ -39,6 +41,8 @@ public class PositionScrollViewModel: ObservableObject {
             }
         }
     }
+    
+    // Direction of current scroll
     var activeScrollDirection: ScrollDirection? {
         didSet {
             switch activeScrollDirection {
@@ -51,8 +55,10 @@ public class PositionScrollViewModel: ObservableObject {
             }
         }
     }
+    
     var isScrolling: Bool { self.activeScrollDirection != nil }
-    /// pageSize means width, height size of scrollview
+    
+    /// CGSize of single page
     var pageSize: CGSize
     
     var scrollDetector: ScrollDetector
@@ -127,7 +133,7 @@ public class PositionScrollViewModel: ObservableObject {
     /// Handle scroll end. Reset scroll state and move to endPosition.
     ///
     /// - Parameter endDragValue: endDragValue of scroll
-    func handleScrollEnd(endDragValue: DragGesture.Value) {
+    internal func handleScrollEnd(endDragValue: DragGesture.Value) {
         guard let scrollDirection = self.activeScrollDirection else {
                    return
                }

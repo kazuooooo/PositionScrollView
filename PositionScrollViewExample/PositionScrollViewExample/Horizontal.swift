@@ -22,7 +22,7 @@ public struct SampleView: View {
             scrollSetting: ScrollSetting(
                 pageCount: 6,
                 pageSize: 200,
-                afterMoveType: .momentum
+                afterMoveType: .fitToNearestUnit
             )
         )
     )
