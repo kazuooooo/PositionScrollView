@@ -1,10 +1,12 @@
 import Foundation
 import UIKit
 import SwiftUI
-/// Scroll encapsulates information about scroll
-/// To controll position easily, Scroll class use page and unit.
-/// To see more detail, please read README.md.
-/// Note: This class doesn't  care for scroll direction.
+/**
+ * Scroll encapsulates information about scroll
+ * To controll position easily, Scroll class use page and unit.
+ * To see more detail, please read README.md.
+ * Note: This class doesn't  care for scroll direction.
+ */
 public class Scroll: ObservableObject {
     /// Scroll setting
     public var scrollSetting: ScrollSetting
@@ -27,16 +29,18 @@ public class Scroll: ObservableObject {
                 self.scrollSetting.positionScrollDelegate?.onChangePosition(position: position)
             }
             
-            // Set position related variables based on new position raw value.
-            // ex) pageSize = 600, unitSize = 300, newValue = 1730
-            // page = 1730 / 600 = 2
-            // positionInPage = 1730 % 600 = 530
-            // unit = 530 / 300 = 1
-            // positionInUnit = 530 % 300 = 230
-            //
-            // So
-            // page = 2, positionInPage = 530
-            // unit = 1, positionInUnit = 230
+            /*
+              Set position related variables based on new position raw value.
+              ex) pageSize = 600, unitSize = 300, newValue = 1730
+              page = 1730 / 600 = 2
+              positionInPage = 1730 % 600 = 530
+              unit = 530 / 300 = 1
+              positionInUnit = 530 % 300 = 230
+             
+              So
+              page = 2, positionInPage = 530
+              unit = 1, positionInUnit = 230
+             */
             self.page = Int(newValue / pageSize)
             self.positionInPage = CGFloat(Double(newValue).truncatingRemainder(dividingBy: Double(pageSize)))
             self.unit = Int(Double(self.positionInPage) / Double(unitSize))
@@ -153,12 +157,7 @@ public class Scroll: ObservableObject {
         return position
     }
     
-    /// Convert page/unit position to zIndexPosition
-    /// - Parameters:
-    ///   - page: <#page description#>
-    ///   - unit: <#unit description#>
-    ///   - positionInUnit: <#positionInUnit description#>
-    /// - Returns: <#description#>
+    /// Convert page/unit position.
     private func pageToPosition(page: Int, unit: Int, positionInUnit: CGFloat) -> CGFloat {
         CGFloat(page) * pageSize + CGFloat(unit) * unitSize + positionInUnit
     }

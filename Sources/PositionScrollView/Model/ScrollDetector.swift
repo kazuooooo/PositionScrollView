@@ -9,13 +9,17 @@
 import Foundation
 import SwiftUI
 
-/// Detector of Scroll
+/**
+ * Detector of Scroll
+ * From the current DragValue, detect  scroll direction and its direction.
+ */
 internal class ScrollDetector{
-    var horizontalScrollSpeedToDetect: Double?
-    var verticalScrollSpeedToDetect: Double?
     
-    // To calc dragspeed, it needs previousDragValue
-    private var previousDragValue: DragGesture.Value?
+    /// Threshold for horizontal scroll
+    var horizontalScrollSpeedToDetect: Double?
+    
+    /// Threshold for vertical scroll
+    var verticalScrollSpeedToDetect: Double?
     
     init(
         horizontalScrollSpeedToDetect: Double?,
@@ -24,6 +28,9 @@ internal class ScrollDetector{
         self.horizontalScrollSpeedToDetect = horizontalScrollSpeedToDetect
         self.verticalScrollSpeedToDetect = verticalScrollSpeedToDetect
     }
+    
+    // To calc dragspeed, it needs previousDragValue
+    private var previousDragValue: DragGesture.Value?
     
     /// Detect scroll
     /// - Parameter currentDragValue: currentDragvValue
@@ -67,10 +74,12 @@ internal class ScrollDetector{
         return nil
     }
     
+    /// Init detector state
     func reset(){
         self.previousDragValue = nil
     }
     
+    /// Calcurate vertical, horizontal velocity of current drag
     private func calcDragVelocity(
         previousDragValue: DragGesture.Value,
         currentDragValue: DragGesture.Value
