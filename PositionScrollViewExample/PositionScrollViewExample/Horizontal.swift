@@ -14,20 +14,23 @@ import SwiftUI
 public struct MinimalExample: View, PositionScrollViewDelegate {
     /// Page size of Scroll
     var pageSize = CGSize(width: 200, height: 300)
-//    @State var position: CGFloat = 0
-//    @State var page = 0
+    
+    // Create PositionScrollViewModel
+    // (Need to create in parent view to bind with PostionScrollView)
+    @ObservedObject var psViewModel = PositionScrollViewModel(
+        pageSize: CGSize(width: 200, height: 300),
+        horizontalScroll: Scroll(
+            scrollSetting: ScrollSetting(pageCount: 6, afterMoveType: .fitToNearestUnit),
+            pageLength: 200
+        )
+    )
+    
+    @State var hogePage: Int = 0
 
     public var body: some View {
-        // 1. Define ScrollSetting
-        let scrollSetting = ScrollSetting(
-            pageCount: 6,
-            afterMoveType: .fitToNearestUnit
-        )
-    
         return VStack {
             PositionScrollView(
-                pageSize: pageSize,
-                horizontalScrollSetting: scrollSetting,
+                viewModel: self.psViewModel,
                 delegate: self
             ) {
                 HStack(spacing: 0) {
@@ -45,8 +48,9 @@ public struct MinimalExample: View, PositionScrollViewDelegate {
                     
                 }
             }
-//            Text("page: \(page)")
-//            Text("position: \(position)")
+            Text("page: \(self.psViewModel.horizontalScroll?.page ?? 0)")
+            Text("position: \(self.psViewModel.horizontalScroll?.position ?? 0)")
+            Text("page: \(self.hogePage)")
         }
     }
     
@@ -60,17 +64,15 @@ public struct MinimalExample: View, PositionScrollViewDelegate {
     public func onScrollStart() {
         print("onScrollStart")
     }
-    public func onScrollEnd() {
-        print("onScrollEnd")
-    }
-    
     public func onChangePage(page: Int) {
         print("onChangePage to page: \(page)")
-//        self.page = page
     }
     
     public func onChangePosition(position: CGFloat) {
         print("position: \(position)")
-//        self.position = position
+    }
+    
+    public func onScrollEnd() {
+        print("onScrollEnd")
     }
 }

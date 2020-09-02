@@ -4,6 +4,8 @@ import SwiftUI
 public struct PositionScrollView<ChildView: View>: View {
     
     /// View model
+    // FIXME:
+    //
     @ObservedObject var viewModel: PositionScrollViewModel
     
     /// Mask with single page size.
@@ -22,31 +24,24 @@ public struct PositionScrollView<ChildView: View>: View {
     ///   - mask: Mask with single page size. Default false.
     ///   - childView: Scroll target view
     public init(
-        pageSize: CGSize,
-        horizontalScrollSetting: ScrollSetting? = nil,
-        verticalScrollSetting: ScrollSetting? = nil,
-        delegate: PositionScrollViewDelegate? = nil,
+        viewModel: PositionScrollViewModel,
         mask: Bool = false,
+        delegate: PositionScrollViewDelegate?,
         _ childView: () -> (ChildView)
     ) {
         self.childView = childView()
         self.mask = mask
+        self.viewModel = viewModel
         
-        // Throw Error when no scroll setting
-        if(horizontalScrollSetting == nil && verticalScrollSetting == nil) {
-            fatalError("No scroll setting found, please set horizontal or vertical ScrollSetting")
+        // Set delegate
+        if let pDelegate = delegate {
+            if(viewModel.horizontalScroll != nil) {
+                viewModel.horizontalScroll?.scrollSetting.positionScrollDelegate = pDelegate
+            }
+            if(viewModel.verticalScroll != nil) {
+                viewModel.verticalScroll?.scrollSetting.positionScrollDelegate = pDelegate
+            }
         }
-        
-        let hScroll = horizontalScrollSetting != nil ? Scroll(scrollSetting: horizontalScrollSetting!, pageLength: pageSize.width) : nil
-        let vScroll = verticalScrollSetting != nil ? Scroll(scrollSetting: verticalScrollSetting!, pageLength: pageSize.height) : nil
-        
-        self.viewModel = PositionScrollViewModel(
-            pageSize: pageSize,
-            horizontalScroll: hScroll,
-            verticalScroll: vScroll
-        )
-        
-        self.viewModel.horizontalScroll?.scrollSetting.positionScrollDelegate = delegate
     }
     
     public var body: some View {

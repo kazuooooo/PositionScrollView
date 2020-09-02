@@ -7,7 +7,7 @@ import SwiftUI
  * To see more detail, please read README.md.
  * Note: This class doesn't  care for scroll direction.
  */
-internal class Scroll: ObservableObject {
+public class Scroll: ObservableObject {
     /// Scroll setting
     public var scrollSetting: ScrollSetting
     var pageLength: CGFloat
