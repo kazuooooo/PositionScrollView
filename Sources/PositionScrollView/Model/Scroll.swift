@@ -36,7 +36,7 @@ public class Scroll: ObservableObject {
     var scrollSpeedToDetect: Double { scrollSetting.scrollSpeedToDetect }
     
     /// Position based on the start of page 0
-    var position: CGFloat {
+    public var position: CGFloat {
         get { pageToPosition(page: page, unit: unit, positionInUnit: positionInUnit) }
 
         set {
@@ -69,7 +69,7 @@ public class Scroll: ObservableObject {
     }
     
     /// Current page
-    var page: Int = 0 {
+    public var page: Int = 0 {
         // NOTE: Timing mingt be too fast
         didSet {
             if page != oldValue {
@@ -79,7 +79,7 @@ public class Scroll: ObservableObject {
     }
     
     /// Current position in page
-    var positionInPage: CGFloat = 0 {
+    public var positionInPage: CGFloat = 0 {
         didSet {
             if positionInPage != oldValue {
                 self.scrollSetting.positionScrollDelegate?.onChangePositionInPage(positionInPage: positionInPage)
@@ -88,7 +88,7 @@ public class Scroll: ObservableObject {
     }
     
     /// Current unit in page
-    var unit: Int = 0 {
+    public var unit: Int = 0 {
         didSet {
             if unit != oldValue {
                 self.scrollSetting.positionScrollDelegate?.onChangeUnit(unit: unit)
@@ -97,7 +97,7 @@ public class Scroll: ObservableObject {
     }
     
     /// Current position in unit
-    var positionInUnit: CGFloat = 0 {
+    public var positionInUnit: CGFloat = 0 {
         didSet {
             if positionInUnit != oldValue {
                 self.scrollSetting.positionScrollDelegate?.onChangePositionInUnit(positionInUnit: positionInUnit)
@@ -117,14 +117,14 @@ public class Scroll: ObservableObject {
     
     /// Move scroll by argment value
     /// - Parameter value: Value to move
-    func moveBy(value: CGFloat) {
+    public func moveBy(value: CGFloat) {
         let newPosition = self.lastPosition + value
         self.position = self.correctPositionInRange(position: newPosition)
     }
     
     /// Move scroll to argment position
     /// - Parameter position: Position to move
-    func moveTo(position: CGFloat) {
+    public func moveTo(position: CGFloat) {
         self.position = self.correctPositionInRange(position: position)
     }
     
