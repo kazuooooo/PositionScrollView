@@ -3,7 +3,7 @@
 	<img src="https://img.shields.io/badge/contact-@kazuwombat-blue.svg?style=flat" alt="Twitter: @kazuwombat" />
 </a>
 # PositionScrollView
-![アセット 2@3x](https://user-images.githubusercontent.com/6919381/92070946-70453200-ede8-11ea-9960-dca19aebd2eb.png)
+![アセット 4@3x](https://user-images.githubusercontent.com/6919381/92114616-19614c00-ee2c-11ea-8cfe-8ac4107d59a4.png)
 
 > Position Scroll View is  pure Swift UI Scroll View which can get or move scroll position.
 
@@ -20,10 +20,10 @@
 * Swift 5.2+
 
 ## Install
-SwiftPackageManager
-Add `url` in the Swit Package Magener tab in Xcode
+### SwiftPackageManager
+Add `https://github.com/kazuooooo/PositionScrollView` in the Swit Package Magener tab in Xcode
 
-CocoaPods
+### CocoaPods
 
 ```
 pod ‘PositionScrollView’ 
