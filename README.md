@@ -41,6 +41,7 @@ Minimal horizontal scroll view example below.
 ```swift
 import Foundation
 import SwiftUI
+import PositionScrollView
 
 /// Extended ScrollView which can controll position
 public struct MinimalHorizontalExample: View, PositionScrollViewDelegate {
@@ -52,11 +53,11 @@ public struct MinimalHorizontalExample: View, PositionScrollViewDelegate {
     @ObservedObject var psViewModel = PositionScrollViewModel(
         pageSize: CGSize(width: 200, height: 300),
         horizontalScroll: Scroll(
-            scrollSetting: ScrollSetting(pageCount: 5, afterMoveType: .stickNearestUnitEdge),
-            pageLength: 200 // Page length of direction
+            scrollSetting: ScrollSetting(pageCount: 5, afterMoveType: .fitToNearestUnit),
+            pageLength: 200
         )
     )
-   
+    
     public var body: some View {
         return VStack {
             PositionScrollView(
@@ -67,8 +68,8 @@ public struct MinimalHorizontalExample: View, PositionScrollViewDelegate {
                     ForEach(0...4, id: \.self){ i in
                         ZStack {
                             Rectangle()
-                                .fill(BLUES[i])
-                                .border(Color.black)
+                                .fill(Color.gray)
+                                .border(Color.white)
                                 .frame(
                                     width: self.pageSize.width, height: self.pageSize.height
                             )
@@ -80,9 +81,7 @@ public struct MinimalHorizontalExample: View, PositionScrollViewDelegate {
                     
                 }
             }
-			  // Get page via scroll object
             Text("page: \(self.psViewModel.horizontalScroll?.page ?? 0)")
-			  // Get position via scroll object
             Text("position: \(self.psViewModel.horizontalScroll?.position ?? 0)")
         }
     }
@@ -94,7 +93,6 @@ public struct MinimalHorizontalExample: View, PositionScrollViewDelegate {
     }
     
     // Delegate methods of PositionScrollView
-	  // You can monitor changes of position
     public func onScrollStart() {
         print("onScrollStart")
     }
